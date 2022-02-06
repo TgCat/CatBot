@@ -61,7 +61,7 @@ speedtest-cli
 sqlalchemy-json
 sqlalchemy==1.3.23
 telegraph
-git+https://github.com/Jisan09/Telethon/tree/Artifact
+git+https://github.com/NekkoYato/Telethon
 tgcrypto
 ujson
 urlextract
