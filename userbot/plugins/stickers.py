@@ -335,6 +335,9 @@ async def kang(args):  # sourcery no-metrics
             is_anim = True
             photo = 1
         elif message.media.document.mime_type in ["video/mp4", "video/webm"]:
+            emojibypass = False
+            is_video = True
+            photo = 1
             if message.media.document.mime_type == "video/webm":
                 catevent = await edit_or_reply(args, f"`{random.choice(KANGING_STR)}`")
                 sticker = await args.client.download_media(
@@ -345,15 +348,10 @@ async def kang(args):  # sourcery no-metrics
                     if isinstance(attribute, DocumentAttributeSticker):
                         emoji = attribute.alt
                         emojibypass = True
-                    else:
-                        emojibypass = False
             else:
                 catevent = await edit_or_reply(args, "__⌛ Downloading..__")
                 sticker = await animator(message, args, catevent)
                 await edit_or_reply(catevent, f"`{random.choice(KANGING_STR)}`")
-                emojibypass = False
-            is_video = True
-            photo = 1
         else:
             await edit_delete(args, "`Unsupported File!`")
             return
