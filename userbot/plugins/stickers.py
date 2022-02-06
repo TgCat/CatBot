@@ -340,13 +340,19 @@ async def kang(args):  # sourcery no-metrics
                 sticker = await args.client.download_media(
                     message.media.document, "animate.webm"
                 )
+                attributes = message.media.document.attributes
+                for attribute in attributes:
+                    if isinstance(attribute, DocumentAttributeSticker):
+                        emoji = attribute.alt
+                        emojibypass = True
+                    else:
+                        emojibypass = False
             else:
                 catevent = await edit_or_reply(args, "__⌛ Downloading..__")
                 sticker = await animator(message, args, catevent)
                 await edit_or_reply(catevent, f"`{random.choice(KANGING_STR)}`")
+                emojibypass = False
             is_video = True
-            emoji = "😂"
-            emojibypass = True
             photo = 1
         else:
             await edit_delete(args, "`Unsupported File!`")
