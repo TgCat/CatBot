@@ -365,7 +365,7 @@ async def startmute(event):
             await event.client.send_message(
                 BOTLOG_CHATID,
                 "#PM_MUTE\n"
-                f"**User :** [{replied_user.user.first_name}](tg://user?id={event.chat_id})\n",
+                f"**User :** [{replied_user.private_forward_name}](tg://user?id={event.chat_id})\n",
             )
     else:
         chat = await event.get_chat()
@@ -466,7 +466,7 @@ async def endmute(event):
             await event.client.send_message(
                 BOTLOG_CHATID,
                 "#PM_UNMUTE\n"
-                f"**User :** [{replied_user.user.first_name}](tg://user?id={event.chat_id})\n",
+                f"**User :** [{replied_user.private_forward_name}](tg://user?id={event.chat_id})\n",
             )
     else:
         user, _ = await get_user_from_event(event)
@@ -665,24 +665,24 @@ async def _iundlt(event):  # sourcery no-metrics
     deleted_msg = f"**Recent {lim} Deleted message(s) in this group are :**"
     if not flag:
         for msg in adminlog:
-            ruser = ((await event.client(GetFullUserRequest(msg.old.from_id.user_id))).user).full_user
+            ruser = (await event.client(GetFullUserRequest(msg.old.from_id.user_id))).full_user
             _media_type = media_type(msg.old)
             if _media_type is None:
-                deleted_msg += f"\n☞ __{msg.old.message}__ **Sent by** {_format.mentionuser(ruser.first_name ,ruser.id)}"
+                deleted_msg += f"\n☞ __{msg.old.message}__ **Sent by** {_format.mentionuser(ruser.private_forward_name ,ruser.id)}"
             else:
-                deleted_msg += f"\n☞ __{_media_type}__ **Sent by** {_format.mentionuser(ruser.first_name ,ruser.id)}"
+                deleted_msg += f"\n☞ __{_media_type}__ **Sent by** {_format.mentionuser(ruser.private_forward_name ,ruser.id)}"
         await edit_or_reply(catevent, deleted_msg)
     else:
         main_msg = await edit_or_reply(catevent, deleted_msg)
         for msg in adminlog:
-            ruser = ((await event.client(GetFullUserRequest(msg.old.from_id.user_id))).user).full_user
+            ruser = (await event.client(GetFullUserRequest(msg.old.from_id.user_id))).full_user
             _media_type = media_type(msg.old)
             if _media_type is None:
                 await main_msg.reply(
-                    f"{msg.old.message}\n**Sent by** {_format.mentionuser(ruser.first_name ,ruser.id)}"
+                    f"{msg.old.message}\n**Sent by** {_format.mentionuser(ruser.private_forward_name ,ruser.id)}"
                 )
             else:
                 await main_msg.reply(
-                    f"{msg.old.message}\n**Sent by** {_format.mentionuser(ruser.first_name ,ruser.id)}",
+                    f"{msg.old.message}\n**Sent by** {_format.mentionuser(ruser.private_forward_name ,ruser.id)}",
                     file=msg.old.media,
                 )
