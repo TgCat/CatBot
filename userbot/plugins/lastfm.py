@@ -99,7 +99,7 @@ async def get_curr_track(lfmbio):  # sourcery no-metrics
         try:
             if LASTFM_.USER_ID == 0:
                 LASTFM_.USER_ID = (await lfmbio.client.get_me()).id
-            user_info = await catub(GetFullUserRequest(LASTFM_.USER_ID))
+            user_info = (await catub(GetFullUserRequest(LASTFM_.USER_ID))).full_user
             LASTFM_.RUNNING = True
             playing = User(LASTFM_USERNAME, lastfm).get_now_playing()
             LASTFM_.SONG = playing.get_title()

@@ -25,9 +25,7 @@ async def get_user(event):
     # Get the user from argument or replied message.
     if event.reply_to_msg_id:
         previous_message = await event.get_reply_message()
-        replied_user = await event.client(
-            GetFullUserRequest(previous_message.sender_id)
-        )
+        replied_user = (await event.client(GetFullUserRequest(previous_message.sender_id))).full_user
     else:
         user = event.pattern_match.group(1)
         if user.isnumeric():
@@ -42,11 +40,11 @@ async def get_user(event):
 
             if isinstance(probable_user_mention_entity, MessageEntityMentionName):
                 user_id = probable_user_mention_entity.user_id
-                replied_user = await event.client(GetFullUserRequest(user_id))
+                replied_user = (await event.client(GetFullUserRequest(user_id))).full_user
                 return replied_user
         try:
             user_object = await event.client.get_entity(user)
-            replied_user = await event.client(GetFullUserRequest(user_object.id))
+            replied_user = (await event.client(GetFullUserRequest(user_object.id))).full_user
 
         except (TypeError, ValueError):
             await event.edit("`I don't slap aliens, they ugly AF !!`")
@@ -455,7 +453,7 @@ async def gbun(event):
     reply_message = None
     if event.reply_to_msg_id:
         reply_message = await event.get_reply_message()
-        replied_user = await event.client(GetFullUserRequest(reply_message.sender_id))
+        replied_user = (await event.client(GetFullUserRequest(reply_message.sender_id))).full_user
         firstname = replied_user.user.first_name
         usname = replied_user.user.username
         idd = reply_message.sender_id

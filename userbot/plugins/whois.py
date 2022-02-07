@@ -89,7 +89,7 @@ async def _(event):
     if not replied_user:
         return
     catevent = await edit_or_reply(event, "`Fetching userinfo wait....`")
-    replied_user = await event.client(GetFullUserRequest(replied_user.id))
+    replied_user = (await event.client(GetFullUserRequest(replied_user.id))).full_user
     user_id = replied_user.user.id
     # some people have weird HTML in their names
     first_name = html.escape(replied_user.user.first_name)
@@ -163,7 +163,7 @@ async def who(event):
     if not replied_user:
         return
     cat = await edit_or_reply(event, "`Fetching userinfo wait....`")
-    replied_user = await event.client(GetFullUserRequest(replied_user.id))
+    replied_user = (await event.client(GetFullUserRequest(replied_user.id))).full_user
     try:
         photo, caption = await fetch_info(replied_user, event)
     except AttributeError:
