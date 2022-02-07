@@ -36,7 +36,7 @@ async def fetch_info(replied_user, event):
     user_id = replied_user.id
     first_name = replied_user.first_name
     full_name = FullUser.private_forward_name
-    dc_id = replied_user.dc_id
+    dc_id = replied_user.photo.dc_id
     common_chat = FullUser.common_chats_count
     username = replied_user.username
     user_bio = FullUser.about
@@ -87,7 +87,7 @@ async def _(event):
         return
     catevent = await edit_or_reply(event, "`Fetching userinfo wait....`")
     FullUser = (await event.client(GetFullUserRequest(replied_user.id))).full_user
-    user_id = replied_user.user.id
+    user_id = replied_user.id
     # some people have weird HTML in their names
     first_name = html.escape(replied_user.first_name)
     # https://stackoverflow.com/a/5072031/4723940
@@ -98,7 +98,7 @@ async def _(event):
         first_name = first_name.replace("\u2060", "")
     # inspired by https://telegram.dog/afsaI181
     common_chats = FullUser.common_chats_count
-    dc_id = replied_user.dc_id
+    dc_id = replied_user.photo.dc_id
     if spamwatch:
         ban = spamwatch.get_ban(user_id)
         if ban:
