@@ -14,7 +14,7 @@ from telethon.tl.types import ChannelParticipantsAdmins, MessageEntityMentionNam
 from userbot import catub
 
 from ..core.managers import edit_delete, edit_or_reply
-from ..helpers import catmemes
+from ..helpers import catmemes,get_user_from_event
 from ..helpers.utils import _catutils, parse_pre
 from . import BOTLOG, BOTLOG_CHATID, mention
 
