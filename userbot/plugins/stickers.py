@@ -506,7 +506,8 @@ async def pack_kang(event):  # sourcery no-metrics
                 InputStickerSetID(
                     id=stickerset_attr.stickerset.id,
                     access_hash=stickerset_attr.stickerset.access_hash,
-                )
+                ),
+                hash=0,
             )
         )
     except Exception:
@@ -519,7 +520,8 @@ async def pack_kang(event):  # sourcery no-metrics
         functions.messages.GetStickerSetRequest(
             stickerset=types.InputStickerSetShortName(
                 short_name=f"{get_stickerset.set.short_name}"
-            )
+            ),
+            hash=0,
         )
     )
     noofst = get_stickerset.set.count
@@ -551,6 +553,19 @@ async def pack_kang(event):  # sourcery no-metrics
                     emoji = attribute.alt
             is_anim = True
             photo = 1
+        elif "video/webm" in message.mime_type:
+            await edit_or_reply(
+                catevent,
+                f"`This sticker pack is kanging now . Status of kang process : {kangst}/{noofst}`",
+            )
+            await event.client.download_media(message, "animate.webm")
+            attributes = message.attributes
+            for attribute in attributes:
+                if isinstance(attribute, DocumentAttributeSticker):
+                    emoji = attribute.alt
+            emojibypass = True
+            is_video = True
+            photo = 1
         else:
             await edit_delete(catevent, "`Unsupported File!`")
             return
@@ -575,7 +590,9 @@ async def pack_kang(event):  # sourcery no-metrics
             packname = pack_name(userid, pack, is_anim, is_video)
             cmd = "/newpack"
             stfile = io.BytesIO()
-            if is_anim:
+            if is_video:
+                cmd = "/newvideo"
+            elif is_anim:
                 cmd = "/newanimated"
             else:
                 image = await resize_photo(photo)
@@ -860,7 +877,8 @@ async def get_pack_info(event):
             InputStickerSetID(
                 id=stickerset_attr.stickerset.id,
                 access_hash=stickerset_attr.stickerset.access_hash,
-            )
+            ),
+            hash=0,
         )
     )
     pack_emojis = []
