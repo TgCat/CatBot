@@ -80,7 +80,7 @@ async def _(event):  # sourcery no-metrics
         m: {"file_size": 0, "count": 0, "max_size": 0, "max_file_link": ""}
         for m in TYPES
     }
-    async for message in event.client.get_messages(entity=entity, limit=None):
+    async for message in event.client.iter_messages(entity=entity, limit=None):
         msg_count += 1
         media = media_type(message)
         if media is not None:
@@ -205,7 +205,7 @@ async def _(event):  # sourcery no-metrics
         m: {"file_size": 0, "count": 0, "max_size": 0, "max_file_link": ""}
         for m in TYPES
     }
-    async for message in event.client.get_messages(
+    async for message in event.client.iter_messages(
         entity=entity, limit=None, from_user=userentity
     ):
         msg_count += 1
