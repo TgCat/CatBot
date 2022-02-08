@@ -188,12 +188,12 @@ async def _(event):  # sourcery no-metrics
             parse_mode="HTML",
         )
 
-    try:
+    if type(chatdata).__name__ == "Channel":
         if chatdata.username:
             link = f"<a href='t.me/{chatdata.username}'>{chatdata.title}</a>"
         else:
             link = chatdata.title
-    except AttributeError:
+    else:
         link = f"<a href='tg://user?id={chatdata.id}'>{chatdata.first_name}</a>"
     catevent = await edit_or_reply(
         event,
@@ -215,12 +215,11 @@ async def _(event):  # sourcery no-metrics
             media_dict[media]["count"] += 1
             if message.file.size > media_dict[media]["max_size"]:
                 media_dict[media]["max_size"] = message.file.size
-                try:
-                    chatdata.title
+                if type(chatdata).__name__ == "Channel":
                     media_dict[media][
                         "max_file_link"
                     ] = f"https://t.me/c/{chatdata.id}/{message.id}"
-                except AttributeError:
+                else:
                     media_dict[media][
                         "max_file_link"
                     ] = f"tg://openmessage?user_id={chatdata.id}&message_id={message.id}"
