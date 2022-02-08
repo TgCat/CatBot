@@ -103,13 +103,13 @@ async def _(event):
         if c not in string.ascii_lowercase:
             continue
         if c not in FPOST_.MSG_CACHE:
-            async for msg in event.client.iter_messages(event.chat_id, search=c):
+            async for msg in event.client.get_messages(event.chat_id, search=c):
                 if msg.raw_text.lower() == c and msg.media is None:
                     FPOST_.MSG_CACHE[c] = msg
                     break
         if c not in FPOST_.MSG_CACHE:
             for i in FPOST_.GROUPSID:
-                async for msg in event.client.iter_messages(event.chat_id, search=c):
+                async for msg in event.client.get_messages(event.chat_id, search=c):
                     if msg.raw_text.lower() == c and msg.media is None:
                         MSG_CACHE[c] = msg
                         break

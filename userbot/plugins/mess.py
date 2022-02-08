@@ -142,7 +142,7 @@ async def some(event):
     start = min(start, maxmsg.total - 40)
     end = start + 41
     kiss = []
-    async for x in event.client.iter_messages(
+    async for x in event.client.get_messages(
         chat, min_id=start, max_id=end, reverse=True
     ):
         try:

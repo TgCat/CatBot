@@ -116,7 +116,7 @@ async def _(event):
 
 
 async def delete_messages(event, chat, from_message):
-    itermsg = event.client.iter_messages(chat, min_id=from_message.id)
+    itermsg = event.client.get_messages(chat, min_id=from_message.id)
     msgs = [from_message.id]
     async for i in itermsg:
         msgs.append(i.id)

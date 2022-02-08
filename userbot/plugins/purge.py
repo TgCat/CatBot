@@ -141,7 +141,7 @@ async def purge_to(event):
         to_message = await reply_id(event)
         msgs = []
         count = 0
-        async for msg in event.client.iter_messages(
+        async for msg in event.client.get_messages(
             event.chat_id, min_id=(from_message - 1), max_id=(to_message + 1)
         ):
             msgs.append(msg)
@@ -180,7 +180,7 @@ async def purgeme(event):
     message = event.text
     count = int(message[9:])
     i = 1
-    async for message in event.client.iter_messages(event.chat_id, from_user="me"):
+    async for message in event.client.get_messages(event.chat_id, from_user="me"):
         if i > count + 1:
             break
         i += 1
@@ -257,7 +257,7 @@ async def fastpurger(event):  # sourcery no-metrics
             if p_type is not None:
                 for ty in p_type:
                     if ty in purgetype:
-                        async for msg in event.client.iter_messages(
+                        async for msg in event.client.get_messages(
                             event.chat_id,
                             limit=int(input_str),
                             offset_id=reply.id - 1,
@@ -277,7 +277,7 @@ async def fastpurger(event):  # sourcery no-metrics
                         error += f"\n• `{ty}` __is Invalid flag.__"
             else:
                 count += 1
-                async for msg in event.client.iter_messages(
+                async for msg in event.client.get_messages(
                     event.chat_id,
                     limit=(int(input_str) - 1),
                     offset_id=reply.id,
@@ -300,7 +300,7 @@ async def fastpurger(event):  # sourcery no-metrics
                 cont = cont.strip()
                 inputstr = inputstr.strip()
                 if cont.isnumeric():
-                    async for msg in event.client.iter_messages(
+                    async for msg in event.client.get_messages(
                         event.chat_id,
                         limit=int(cont),
                         offset_id=reply.id - 1,
@@ -313,7 +313,7 @@ async def fastpurger(event):  # sourcery no-metrics
                             await event.client.delete_messages(chat, msgs)
                             msgs = []
                 else:
-                    async for msg in event.client.iter_messages(
+                    async for msg in event.client.get_messages(
                         event.chat_id,
                         offset_id=reply.id - 1,
                         reverse=True,
@@ -333,7 +333,7 @@ async def fastpurger(event):  # sourcery no-metrics
         elif p_type is not None:
             for ty in p_type:
                 if ty in purgetype:
-                    async for msg in event.client.iter_messages(
+                    async for msg in event.client.get_messages(
                         event.chat_id,
                         min_id=event.reply_to_msg_id - 1,
                         filter=purgetype[ty],
@@ -348,7 +348,7 @@ async def fastpurger(event):  # sourcery no-metrics
                 else:
                     error += f"\n• `{ty}` __is Invalid flag.__"
         else:
-            async for msg in event.client.iter_messages(
+            async for msg in event.client.get_messages(
                 chat, min_id=event.reply_to_msg_id - 1
             ):
                 count += 1
@@ -362,7 +362,7 @@ async def fastpurger(event):  # sourcery no-metrics
         if p_type != "s" and input_str.isnumeric():
             for ty in p_type:
                 if ty in purgetype:
-                    async for msg in event.client.iter_messages(
+                    async for msg in event.client.get_messages(
                         event.chat_id, limit=int(input_str), filter=purgetype[ty]
                     ):
                         count += 1
@@ -386,7 +386,7 @@ async def fastpurger(event):  # sourcery no-metrics
             cont = cont.strip()
             inputstr = inputstr.strip()
             if cont.isnumeric():
-                async for msg in event.client.iter_messages(
+                async for msg in event.client.get_messages(
                     event.chat_id, limit=int(cont), search=inputstr
                 ):
                     count += 1
@@ -395,7 +395,7 @@ async def fastpurger(event):  # sourcery no-metrics
                         await event.client.delete_messages(chat, msgs)
                         msgs = []
             else:
-                async for msg in event.client.iter_messages(
+                async for msg in event.client.get_messages(
                     event.chat_id, search=input_str
                 ):
                     count += 1
@@ -410,7 +410,7 @@ async def fastpurger(event):  # sourcery no-metrics
     elif p_type is not None:
         for ty in p_type:
             if ty in purgetype:
-                async for msg in event.client.iter_messages(
+                async for msg in event.client.get_messages(
                     event.chat_id, filter=purgetype[ty]
                 ):
                     count += 1
@@ -426,7 +426,7 @@ async def fastpurger(event):  # sourcery no-metrics
             else:
                 error += f"\n• `{ty}` __is Invalid flag.__"
     elif input_str.isnumeric():
-        async for msg in event.client.iter_messages(chat, limit=int(input_str) + 1):
+        async for msg in event.client.get_messages(chat, limit=int(input_str) + 1):
             count += 1
             msgs.append(msg)
             if len(msgs) == 50:
@@ -504,7 +504,7 @@ async def fast_purger(event):  # sourcery no-metrics
         )
     if not flag:
         if input_str and p_type == "s":
-            async for msg in event.client.iter_messages(
+            async for msg in event.client.get_messages(
                 event.chat_id,
                 search=input_str,
                 from_user=reply.sender_id,
@@ -515,7 +515,7 @@ async def fast_purger(event):  # sourcery no-metrics
                     await event.client.delete_messages(chat, msgs)
                     msgs = []
         elif input_str and input_str.isnumeric():
-            async for msg in event.client.iter_messages(
+            async for msg in event.client.get_messages(
                 event.chat_id,
                 limit=int(input_str),
                 offset_id=reply.id - 1,
@@ -530,7 +530,7 @@ async def fast_purger(event):  # sourcery no-metrics
         elif input_str:
             error += f"\n• `.upurge {input_str}` __is invalid syntax try again by reading__ `.help -c purge`"
         else:
-            async for msg in event.client.iter_messages(
+            async for msg in event.client.get_messages(
                 chat,
                 min_id=event.reply_to_msg_id - 1,
                 from_user=reply.sender_id,
@@ -541,7 +541,7 @@ async def fast_purger(event):  # sourcery no-metrics
                     await event.client.delete_messages(chat, msgs)
                     msgs = []
     elif input_str.isnumeric():
-        async for msg in event.client.iter_messages(
+        async for msg in event.client.get_messages(
             chat,
             limit=int(input_str),
             from_user=reply.sender_id,
@@ -552,7 +552,7 @@ async def fast_purger(event):  # sourcery no-metrics
                 await event.client.delete_messages(chat, msgs)
                 msgs = []
     else:
-        async for msg in event.client.iter_messages(
+        async for msg in event.client.get_messages(
             chat,
             from_user=reply.sender_id,
         ):
