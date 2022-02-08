@@ -54,7 +54,7 @@ async def fetch_info(replied_user, event):
         if first_name
         else ("This User has no First Name")
     )
-    full_name = full_name if full_name != "None" else first_name
+    full_name = full_name if full_name else first_name
     username = "@{}".format(username) if username else ("This User has no Username")
     user_bio = "This User has no About" if not user_bio else user_bio
     caption = "<b><i>USER INFO from Durov's Database :</i></b>\n\n"
