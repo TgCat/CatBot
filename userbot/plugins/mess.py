@@ -6,7 +6,7 @@ import random
 
 import requests
 from telethon import functions, types
-from telethon.errors.rpcerrorlist import UserNotParticipantError, YouBlockedUserError
+from telethon.errors import UserNotParticipantError, YouBlockedUserError
 from telethon.tl.functions.channels import GetFullChannelRequest
 from telethon.tl.functions.messages import ImportChatInviteRequest as Get
 

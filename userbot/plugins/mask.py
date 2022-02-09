@@ -4,7 +4,7 @@ import os
 
 from telegraph import exceptions, upload_file
 from telethon import events
-from telethon.errors.rpcerrorlist import YouBlockedUserError
+from telethon.errors import YouBlockedUserError
 
 from userbot import catub
 

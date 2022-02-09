@@ -3,7 +3,7 @@ Created by @Jisan7509
 plugin for Cat_Userbot
 """
 
-from telethon.errors.rpcerrorlist import YouBlockedUserError
+from telethon.errors import YouBlockedUserError
 
 from . import catub, edit_or_reply, reply_id
 

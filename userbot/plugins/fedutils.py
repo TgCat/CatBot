@@ -1,6 +1,6 @@
 import asyncio
 
-from telethon.errors.rpcerrorlist import YouBlockedUserError
+from telethon.errors import YouBlockedUserError
 
 from userbot import BOTLOG, BOTLOG_CHATID, catub
 
