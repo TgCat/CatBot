@@ -1,7 +1,7 @@
 from datetime import datetime
 from math import floor
 
-from telethon.utils import get_display_name
+from telethon._misc.utils import get_display_name
 
 from userbot import catub
 

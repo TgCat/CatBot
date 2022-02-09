@@ -1,7 +1,8 @@
 import typing
 
-from telethon import events, hints, types
-from telethon.tl.types import (
+from telethon._misc import hints
+from telethon import events, _tl
+from telethon._tl import (
     InputPeerChannel,
     InputPeerChat,
     InputPeerUser,
@@ -30,7 +31,7 @@ class NewMessage(events.NewMessage):
         ):
             return
 
-        if self.require_admin and not isinstance(event._chat_peer, types.PeerUser):
+        if self.require_admin and not isinstance(event._chat_peer, _tl.PeerUser):
             is_creator = False
             is_admin = False
             creator = hasattr(event.chat, "creator")
@@ -50,9 +51,9 @@ class NewMessage(events.NewMessage):
                     participant = p.participant
                 except Exception:
                     participant = None
-                if isinstance(participant, types.ChannelParticipantCreator):
+                if isinstance(participant, _tl.ChannelParticipantCreator):
                     is_creator = True
-                if isinstance(participant, types.ChannelParticipantAdmin):
+                if isinstance(participant, _tl.ChannelParticipantAdmin):
                     is_admin = True
             elif flag:
                 is_admin = True
@@ -73,9 +74,9 @@ class NewMessage(events.NewMessage):
 class MessageEdited(NewMessage):
     @classmethod
     def build(cls, update, others=None, self_id=None):
-        if isinstance(update, types.UpdateEditMessage):
+        if isinstance(update, _tl.UpdateEditMessage):
             return cls.Event(update.message)
-        if isinstance(update, types.UpdateEditChannelMessage):
+        if isinstance(update, _tl.UpdateEditChannelMessage):
             if (
                 update.message.edit_date
                 and update.message.is_channel
@@ -135,9 +136,9 @@ async def send_message(
     entity: "hints.EntityLike",
     message: "hints.MessageLike" = "",
     *,
-    reply_to: "typing.Union[int, types.Message]" = None,
+    reply_to: "typing.Union[int, _tl.Message]" = None,
     parse_mode: typing.Optional[str] = (),
-    formatting_entities: typing.Optional[typing.List[types.TypeMessageEntity]] = None,
+    formatting_entities: typing.Optional[typing.List[_tl.TypeMessageEntity]] = None,
     link_preview: bool = False,
     file: "typing.Union[hints.FileLike, typing.Sequence[hints.FileLike]]" = None,
     force_document: bool = False,
@@ -145,7 +146,7 @@ async def send_message(
     buttons: "hints.MarkupLike" = None,
     silent: bool = None,
     schedule: "hints.DateLike" = None,
-    comment_to: "typing.Union[int, types.Message]" = None,
+    comment_to: "typing.Union[int, _tl.Message]" = None,
 ):
     chatid = entity
     if str(chatid) in [
@@ -231,18 +232,18 @@ async def send_file(
     clear_draft: bool = False,
     progress_callback: "hints.ProgressCallback" = None,
     reply_to: "hints.MessageIDLike" = None,
-    attributes: "typing.Sequence[types.TypeDocumentAttribute]" = None,
+    attributes: "typing.Sequence[_tl.TypeDocumentAttribute]" = None,
     thumb: "hints.FileLike" = None,
     allow_cache: bool = True,
     parse_mode: str = (),
-    formatting_entities: typing.Optional[typing.List[types.TypeMessageEntity]] = None,
+    formatting_entities: typing.Optional[typing.List[_tl.TypeMessageEntity]] = None,
     voice_note: bool = False,
     video_note: bool = False,
     buttons: "hints.MarkupLike" = None,
     silent: bool = None,
     supports_streaming: bool = False,
     schedule: "hints.DateLike" = None,
-    comment_to: "typing.Union[int, types.Message]" = None,
+    comment_to: "typing.Union[int, _tl.Message]" = None,
     **kwargs,
 ):
     if isinstance(file, MessageMediaWebPage):
@@ -355,12 +356,12 @@ async def send_file(
 
 async def edit_message(
     client,
-    entity: "typing.Union[hints.EntityLike, types.Message]",
+    entity: "typing.Union[hints.EntityLike, _tl.Message]",
     message: "hints.MessageLike" = None,
     text: str = None,
     *,
     parse_mode: str = (),
-    formatting_entities: typing.Optional[typing.List[types.TypeMessageEntity]] = None,
+    formatting_entities: typing.Optional[typing.List[_tl.TypeMessageEntity]] = None,
     link_preview: bool = True,
     file: "hints.FileLike" = None,
     force_document: bool = False,
