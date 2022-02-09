@@ -1,6 +1,6 @@
 import sys
 
-from telethon.network.connection.tcpabridged import ConnectionTcpAbridged
+#from telethon.network.connection.tcpabridged import ConnectionTcpAbridged
 from telethon.sessions import StringSession
 
 from ..Config import Config
@@ -22,7 +22,7 @@ try:
         api_hash=Config.API_HASH,
         loop=loop,
         app_version=__version__,
-        connection=ConnectionTcpAbridged,
+        #connection=ConnectionTcpAbridged,
         auto_reconnect=True,
         connection_retries=None,
     )
@@ -37,7 +37,7 @@ catub.tgbot = tgbot = CatUserBotClient(
     api_hash=Config.API_HASH,
     loop=loop,
     app_version=__version__,
-    connection=ConnectionTcpAbridged,
+    #connection=ConnectionTcpAbridged,
     auto_reconnect=True,
     connection_retries=None,
 ).start(bot_token=Config.TG_BOT_TOKEN)
