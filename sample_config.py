@@ -5,7 +5,7 @@
 import os
 from typing import Set
 
-from telethon.tl.types import ChatBannedRights
+from telethon._tl import ChatBannedRights
 
 
 class Config(object):
