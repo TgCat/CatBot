@@ -29,14 +29,15 @@ async def fetch_info(replied_user, event):
         )
     )
     replied_user_profile_photos_count = "User haven't set profile pic"
+    dc_id = "Can't get dc id"
     try:
         replied_user_profile_photos_count = replied_user_profile_photos.count
+        dc_id = replied_user.photo.dc_id
     except AttributeError:
         pass
     user_id = replied_user.id
     first_name = replied_user.first_name
     full_name = FullUser.private_forward_name
-    dc_id = replied_user.photo.dc_id
     common_chat = FullUser.common_chats_count
     username = replied_user.username
     user_bio = FullUser.about
@@ -53,6 +54,7 @@ async def fetch_info(replied_user, event):
         if first_name
         else ("This User has no First Name")
     )
+    full_name = full_name if full_name else first_name
     username = "@{}".format(username) if username else ("This User has no Username")
     user_bio = "This User has no About" if not user_bio else user_bio
     caption = "<b><i>USER INFO from Durov's Database :</i></b>\n\n"
@@ -98,7 +100,10 @@ async def _(event):
         first_name = first_name.replace("\u2060", "")
     # inspired by https://telegram.dog/afsaI181
     common_chats = FullUser.common_chats_count
-    dc_id = replied_user.photo.dc_id
+    try:
+        dc_id = replied_user.photo.dc_id
+    except AttributeError:
+        dc_id = "Can't get dc id"
     if spamwatch:
         ban = spamwatch.get_ban(user_id)
         if ban:
