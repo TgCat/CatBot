@@ -10,8 +10,8 @@ from telethon._tl import (
     MessageMediaWebPage,
 )
 
-#from ..Config import Config
-#from .managers import edit_or_reply
+from ..Config import Config
+from .managers import edit_or_reply
 
 
 
@@ -73,20 +73,10 @@ class NewMessage(events.NewMessage, _custom.Message):
 
 class MessageEdited(NewMessage):
     @classmethod
-    def build(cls, update, others=None, self_id=None):
-        if isinstance(update, _tl.UpdateEditMessage):
-            return cls.Event(update.message)
-        if isinstance(update, _tl.UpdateEditChannelMessage):
-            if (
-                update.message.edit_date
-                and update.message.is_channel
-                and not update.message.is_group
-            ):
-                return
-            return cls.Event(update.message)
-
-    class Event(NewMessage.Event):
-        pass
+    def _build(cls, update, others, self_id, entities, client):
+        if isinstance(update, (_tl.UpdateEditMessage,
+                               _tl.UpdateEditChannelMessage)):
+            return cls._new(client, update.message, entities, None)
 
 
 async def safe_check_text(msg):  # sourcery no-metrics
