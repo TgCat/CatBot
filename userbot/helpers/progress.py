@@ -21,7 +21,7 @@ import re
 import time
 from typing import Dict, Tuple
 
-from telethon.errors.rpcerrorlist import MessageNotModifiedError
+from telethon.errors import MessageNotModifiedError
 
 from ..Config import Config
 from ..core.logger import logging
