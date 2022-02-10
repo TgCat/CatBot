@@ -6,7 +6,9 @@ from datetime import timedelta
 from pathlib import Path
 
 import requests
-from telethon import Button, functions, types, utils
+from telethon.types._custom import Button
+from telethon import _tl
+from telethon._misc import utils
 
 from userbot import BOTLOG, BOTLOG_CHATID, PM_LOGGER_GROUP_ID
 
@@ -32,7 +34,7 @@ async def setup_bot():
     """
     try:
         await catub.connect()
-        config = await catub(functions.help.GetConfigRequest())
+        config = await catub(_tl.fn.help.GetConfig())
         for option in config.dc_options:
             if option.ip_address == catub.session.server_address:
                 if catub.session.dc_id != option.id:
@@ -123,7 +125,7 @@ async def add_bot_to_logger_group(chat_id):
     bot_details = await catub.tgbot.get_me()
     try:
         await catub(
-            functions.messages.AddChatUserRequest(
+            _tl.fn.messages.AddChatUser(
                 chat_id=chat_id,
                 user_id=bot_details.username,
                 fwd_limit=1000000,
@@ -132,7 +134,7 @@ async def add_bot_to_logger_group(chat_id):
     except BaseException:
         try:
             await catub(
-                functions.channels.InviteToChannelRequest(
+                _tl.fn.channels.InviteToChannel(
                     channel=chat_id,
                     users=[bot_details.username],
                 )
@@ -183,7 +185,7 @@ async def verifyLoggerGroup():
     if BOTLOG:
         try:
             entity = await catub.get_entity(BOTLOG_CHATID)
-            if not isinstance(entity, types.User) and not entity.creator:
+            if not isinstance(entity, _tl.User) and not entity.creator:
                 if entity.default_banned_rights.send_messages:
                     LOGS.info(
                         "Permissions missing to send messages for the specified PRIVATE_GROUP_BOT_API_ID."
@@ -218,7 +220,7 @@ async def verifyLoggerGroup():
     if PM_LOGGER_GROUP_ID != -100:
         try:
             entity = await catub.get_entity(PM_LOGGER_GROUP_ID)
-            if not isinstance(entity, types.User) and not entity.creator:
+            if not isinstance(entity, _tl.User) and not entity.creator:
                 if entity.default_banned_rights.send_messages:
                     LOGS.info(
                         "Permissions missing to send messages for the specified PM_LOGGER_GROUP_ID."
