@@ -20,7 +20,7 @@ import urllib
 import emoji
 from fontTools.ttLib import TTFont
 from PIL import Image, ImageDraw, ImageFont, ImageOps
-from telethon.tl import types
+from telethon import _tl
 
 from .utils import _catutils
 
@@ -95,9 +95,9 @@ async def process(msg, user, client, reply, replied=None):
     title = ""
     try:
         details = await client.get_permissions(reply.chat_id, user.id)
-        if isinstance(details.participant, types.ChannelParticipantCreator):
+        if isinstance(details.participant, _tl.ChannelParticipantCreator):
             title = details.participant.rank if details.participant.rank else "Creator"
-        elif isinstance(details.participant, types.ChannelParticipantAdmin):
+        elif isinstance(details.participant, _tl.ChannelParticipantAdmin):
             title = details.participant.rank if details.participant.rank else "Admin"
     except TypeError:
         pass
@@ -351,17 +351,17 @@ async def get_entity(msg):
     if not msg.entities:
         return bold, mono, italic, link
     for entity in msg.entities:
-        if isinstance(entity, types.MessageEntityBold):
+        if isinstance(entity, _tl.MessageEntityBold):
             bold[entity.offset] = entity.offset + entity.length
-        elif isinstance(entity, types.MessageEntityItalic):
+        elif isinstance(entity, _tl.MessageEntityItalic):
             italic[entity.offset] = entity.offset + entity.length
-        elif isinstance(entity, types.MessageEntityCode):
+        elif isinstance(entity, _tl.MessageEntityCode):
             mono[entity.offset] = entity.offset + entity.length
-        elif isinstance(entity, types.MessageEntityUrl):
+        elif isinstance(entity, _tl.MessageEntityUrl):
             link[entity.offset] = entity.offset + entity.length
-        elif isinstance(entity, types.MessageEntityTextUrl):
+        elif isinstance(entity, _tl.MessageEntityTextUrl):
             link[entity.offset] = entity.offset + entity.length
-        elif isinstance(entity, types.MessageEntityMention):
+        elif isinstance(entity, _tl.MessageEntityMention):
             link[entity.offset] = entity.offset + entity.length
     return bold, mono, italic, link
 

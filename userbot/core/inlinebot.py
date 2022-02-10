@@ -6,7 +6,8 @@ import re
 import time
 from uuid import uuid4
 
-from telethon import Button, types
+from telethon import _tl
+from telethon.types._custom import Button
 from telethon.errors import QueryIdInvalidError
 from telethon.events import CallbackQuery, InlineQuery
 from youtubesearchpython import VideosSearch
@@ -463,20 +464,20 @@ async def inline_handler(event):  # sourcery no-metrics
                 photo = await get_ytthumb(link)
             if found_:
                 markup = event.client.build_reply_markup(buttons)
-                photo = types.InputWebDocument(
+                photo = _tl.InputWebDocument(
                     url=photo, size=0, mime_type="image/jpeg", attributes=[]
                 )
                 text, msg_entities = await event.client._parse_message_text(
                     caption, "html"
                 )
-                result = types.InputBotInlineResult(
+                result = _tl.InputBotInlineResult(
                     id=str(uuid4()),
                     type="photo",
                     title=link,
                     description="⬇️ Click to Download",
                     thumb=photo,
                     content=photo,
-                    send_message=types.InputBotInlineMessageMediaAuto(
+                    send_message=_tl.InputBotInlineMessageMediaAuto(
                         reply_markup=markup, message=text, entities=msg_entities
                     ),
                 )
@@ -504,7 +505,7 @@ async def inline_handler(event):  # sourcery no-metrics
                 Button.inline(text="No I'm Not", data="age_verification_false"),
             ]
             markup = event.client.build_reply_markup(buttons)
-            photo = types.InputWebDocument(
+            photo = _tl.InputWebDocument(
                 url="https://i.imgur.com/Zg58iXc.jpg",
                 size=0,
                 mime_type="image/jpeg",
@@ -513,13 +514,13 @@ async def inline_handler(event):  # sourcery no-metrics
             text, msg_entities = await event.client._parse_message_text(
                 "<b>ARE YOU OLD ENOUGH FOR THIS ?</b>", "html"
             )
-            result = types.InputBotInlineResult(
+            result = _tl.InputBotInlineResult(
                 id=str(uuid4()),
                 type="photo",
                 title="Age verification",
                 thumb=photo,
                 content=photo,
-                send_message=types.InputBotInlineMessageMediaAuto(
+                send_message=_tl.InputBotInlineMessageMediaAuto(
                     reply_markup=markup, message=text, entities=msg_entities
                 ),
             )
@@ -568,13 +569,13 @@ async def inline_handler(event):  # sourcery no-metrics
             )
         ]
         markup = event.client.build_reply_markup(buttons)
-        photo = types.InputWebDocument(
+        photo = _tl.InputWebDocument(
             url=CATLOGO, size=0, mime_type="image/jpeg", attributes=[]
         )
         text, msg_entities = await event.client._parse_message_text(
             "𝗗𝗲𝗽𝗹𝗼𝘆 𝘆𝗼𝘂𝗿 𝗼𝘄𝗻 𝗖𝗮𝘁𝗨𝘀𝗲𝗿𝗯𝗼𝘁.", "md"
         )
-        result = types.InputBotInlineResult(
+        result = _tl.InputBotInlineResult(
             id=str(uuid4()),
             type="photo",
             title="𝘾𝙖𝙩𝙐𝙨𝙚𝙧𝙗𝙤𝙩",
@@ -582,7 +583,7 @@ async def inline_handler(event):  # sourcery no-metrics
             url="https://github.com/Jisan09/catuserbot",
             thumb=photo,
             content=photo,
-            send_message=types.InputBotInlineMessageMediaAuto(
+            send_message=_tl.InputBotInlineMessageMediaAuto(
                 reply_markup=markup, message=text, entities=msg_entities
             ),
         )

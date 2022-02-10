@@ -17,7 +17,7 @@ except ModuleNotFoundError:
     from imdb import IMDb
 
 from PIL import Image, ImageColor, ImageDraw, ImageFont
-from telethon.errors.rpcerrorlist import YouBlockedUserError
+from telethon.errors import YouBlockedUserError
 
 from ...Config import Config
 from ...sql_helper.globals import gvarstatus

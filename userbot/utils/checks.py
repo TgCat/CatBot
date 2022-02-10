@@ -1,4 +1,4 @@
-from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
+from telethon._tl import ChannelParticipantAdmin, ChannelParticipantCreator
 
 from ..core.logger import logging
 

@@ -1,6 +1,6 @@
 import re
 
-from telethon import Button
+from telethon.types._custom import Button
 from telethon.errors import MessageNotModifiedError
 from telethon.events import CallbackQuery
 

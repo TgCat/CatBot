@@ -18,22 +18,24 @@ from typing import (
     Union,
 )
 
-from telethon import TelegramClient, helpers, utils
-from telethon.crypto import AuthKey
+from telethon import TelegramClient, _tl
+from telethon._misc import helpers, utils
+from telethon._crypto import AuthKey
 from telethon.errors import FloodWaitError
-from telethon.network import MTProtoSender
-from telethon.tl.alltlobjects import LAYER
-from telethon.tl.functions import InvokeWithLayerRequest
-from telethon.tl.functions.auth import (
-    ExportAuthorizationRequest,
-    ImportAuthorizationRequest,
+from telethon._network import MTProtoSender
+from telethon._tl import LAYER
+from telethon._tl.fn import InvokeWithLayer
+from telethon._tl.fn.auth import (
+    ExportAuthorization,
+    ImportAuthorization,
 )
-from telethon.tl.functions.upload import (
-    GetFileRequest,
-    SaveBigFilePartRequest,
-    SaveFilePartRequest,
+
+from telethon._tl.fn.upload import (
+    GetFile,
+    SaveBigFilePart,
+    SaveFilePart,
 )
-from telethon.tl.types import (
+from telethon._tl import (
     Document,
     InputDocumentFileLocation,
     InputFile,
@@ -63,7 +65,7 @@ TypeLocation = Union[
 class DownloadSender:
     client: TelegramClient
     sender: MTProtoSender
-    request: GetFileRequest
+    request: GetFile
     remaining: int
     stride: int
 
@@ -79,7 +81,7 @@ class DownloadSender:
     ) -> None:
         self.sender = sender
         self.client = client
-        self.request = GetFileRequest(file, offset=offset, limit=limit)
+        self.request = GetFile(file, offset=offset, limit=limit)
         self.stride = stride
         self.remaining = count
 
@@ -104,7 +106,7 @@ class DownloadSender:
 class UploadSender:
     client: TelegramClient
     sender: MTProtoSender
-    request: Union[SaveFilePartRequest, SaveBigFilePartRequest]
+    request: Union[SaveFilePart, SaveBigFilePart]
     part_count: int
     stride: int
     previous: Optional[asyncio.Task]
@@ -125,9 +127,9 @@ class UploadSender:
         self.sender = sender
         self.part_count = part_count
         if big:
-            self.request = SaveBigFilePartRequest(file_id, index, part_count, b"")
+            self.request = SaveBigFilePart(file_id, index, part_count, b"")
         else:
-            self.request = SaveFilePartRequest(file_id, index, b"")
+            self.request = SaveFilePart(file_id, index, b"")
         self.stride = stride
         self.previous = None
         self.loop = loop
@@ -271,11 +273,11 @@ class ParallelTransferrer:
         )
         if not self.auth_key:
             log.debug(f"Exporting auth to DC {self.dc_id}")
-            auth = await self.client(ExportAuthorizationRequest(self.dc_id))
-            self.client._init_request.query = ImportAuthorizationRequest(
+            auth = await self.client(ExportAuthorization(self.dc_id))
+            self.client._init_request.query = ImportAuthorization(
                 id=auth.id, bytes=auth.bytes
             )
-            req = InvokeWithLayerRequest(LAYER, self.client._init_request)
+            req = InvokeWithLayer(LAYER, self.client._init_request)
             await sender.send(req)
             self.auth_key = sender.auth_key
         return sender

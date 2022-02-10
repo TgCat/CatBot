@@ -6,7 +6,7 @@ You remove this, you gay.
 """
 import os
 
-from telethon.errors.rpcerrorlist import YouBlockedUserError
+from telethon.errors import YouBlockedUserError
 
 from ..core.managers import edit_delete, edit_or_reply
 from ..helpers.functions import clippy

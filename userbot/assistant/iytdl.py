@@ -12,10 +12,11 @@ from pathlib import Path
 from time import time
 
 import ujson
-from telethon import Button, types
+from telethon.types._custom import Button
+from telethon import _tl
 from telethon.errors import BotResponseTimeoutError
 from telethon.events import CallbackQuery
-from telethon.utils import get_attributes
+from telethon._misc.utils import get_attributes
 from wget import download
 
 from userbot import catub
@@ -161,7 +162,7 @@ async def ytdl_download_callback(c_q: CallbackQuery):  # sourcery no-metrics
         ),
     )
     ul.close()
-    media = types.InputMediaUploadedDocument(
+    media = _tl.InputMediaUploadedDocument(
         file=uploaded,
         mime_type=mime_type,
         attributes=attributes,

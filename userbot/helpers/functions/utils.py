@@ -2,7 +2,7 @@ import time
 from datetime import datetime
 
 from emoji import get_emoji_regexp
-from telethon.tl.types import Channel, PollAnswer
+from telethon import _tl
 
 
 async def get_message_link(channelid, msgid):
@@ -51,7 +51,7 @@ async def admin_groups(catub):
     async for dialog in catub.iter_dialogs():
         entity = dialog.entity
         if (
-            isinstance(entity, Channel)
+            isinstance(entity, _tl.Channel)
             and entity.megagroup
             and (entity.creator or entity.admin_rights)
         ):
@@ -93,7 +93,7 @@ async def extract_time(cat, time_val):
 
 
 def Build_Poll(options):
-    return [PollAnswer(option, bytes(i)) for i, option in enumerate(options, start=1)]
+    return [_tl.PollAnswer(option, bytes(i)) for i, option in enumerate(options, start=1)]
 
 
 def deEmojify(inputString: str) -> str:
