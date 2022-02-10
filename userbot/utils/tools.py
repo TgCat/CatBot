@@ -4,7 +4,7 @@ from telethon import _tl
 async def create_supergroup(group_name, client, botusername, descript):
     try:
         result = await client(
-            _tl.fn.channels.CreateChannelRequest(
+            _tl.fn.channels.CreateChannel(
                 title=group_name,
                 about=descript,
                 megagroup=True,
@@ -12,12 +12,12 @@ async def create_supergroup(group_name, client, botusername, descript):
         )
         created_chat_id = result.chats[0].id
         result = await client(
-            _tl.fn.messages.ExportChatInviteRequest(
+            _tl.fn.messages.ExportChatInvite(
                 peer=created_chat_id,
             )
         )
         await client(
-            _tl.fn.channels.InviteToChannelRequest(
+            _tl.fn.channels.InviteToChannel(
                 channel=created_chat_id,
                 users=[botusername],
             )
