@@ -2,6 +2,7 @@ import typing
 
 from telethon._misc import hints
 from telethon import events, _tl
+from telethon.types import _custom
 from telethon._tl import (
     InputPeerChannel,
     InputPeerChat,
@@ -9,12 +10,12 @@ from telethon._tl import (
     MessageMediaWebPage,
 )
 
-from ..Config import Config
-from .managers import edit_or_reply
+#from ..Config import Config
+#from .managers import edit_or_reply
 
 
-@events.common.name_inner_event
-class NewMessage(events.NewMessage):
+
+class NewMessage(events.NewMessage, _custom.Message):
     def __init__(self, require_admin: bool = None, inline: bool = False, **kwargs):
         super().__init__(**kwargs)
 
@@ -70,7 +71,6 @@ class NewMessage(events.NewMessage):
         return event
 
 
-@events.common.name_inner_event
 class MessageEdited(NewMessage):
     @classmethod
     def build(cls, update, others=None, self_id=None):
