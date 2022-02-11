@@ -67,7 +67,7 @@ asyncio.run(startup_process())
 
 
 if len(sys.argv) not in (1, 3, 4):
-    await catub.disconnect()
+    catub.disconnect()
 elif not Catcheck.sucess:
     if HEROKU_APP is not None:
         HEROKU_APP.restart()
