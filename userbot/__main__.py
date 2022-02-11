@@ -1,5 +1,5 @@
 import sys
-
+import asyncio
 import userbot
 from userbot import BOTLOG_CHATID, HEROKU_APP, PM_LOGGER_GROUP_ID
 
@@ -67,7 +67,7 @@ asyncio.run(startup_process())
 
 
 if len(sys.argv) not in (1, 3, 4):
-    catub.disconnect()
+    await catub.disconnect()
 elif not Catcheck.sucess:
     if HEROKU_APP is not None:
         HEROKU_APP.restart()
