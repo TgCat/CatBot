@@ -34,7 +34,9 @@ async def setup_bot():
     """
     try:
         await catub.connect()
+        print("connected")
         config = await catub(_tl.fn.help.GetConfig())
+        print("connected 2nd")
         for option in config.dc_options:
             if option.ip_address == catub.session.server_address:
                 if catub.session.dc_id != option.id:
